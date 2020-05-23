@@ -1,0 +1,1 @@
+![spa new-note web sequence](https://www.websequencediagrams.com/files/render?link=7jFJLxFxOOqCXZ6u0Y8UZ0iS6T3Qu9ae9k0O0yGy2W1fZToezSZeoxKRrMEIDDNz)

@@ -4,31 +4,31 @@ import './index.css';
 
 const App = ({anecdotes}) => {
   let [selected, setSelected] = useState(0);
-  let [selectedAnec, setVote] = useState(Array.apply(null, new Array(16)).map(Number.prototype.valueOf,0));
+  let [votes, setVote] = useState(Array.apply(null, new Array(16)).map(Number.prototype.valueOf,0));
 
-  const selectedAnecCopy = [...selectedAnec];
+  const votesCopy = [...votes];
 
-  const handleSelected = () => {
-    selected = Math.ceil(Math.random()*15);
+  const next = () => {
+    selected = Math.floor(Math.random() * anecdotes.length);
     setSelected(selected);
   };
 
   const vote = () => {
-    selectedAnecCopy[selected] += 1;
-    setVote(selectedAnecCopy);
+    votesCopy[selected] += 1;
+    setVote(votesCopy);
   };
 
-  const max = Math.max(...selectedAnecCopy);
-  const maxVotesIndex = selectedAnecCopy.indexOf(max);
+  const max = Math.max(...votesCopy);
+  const maxVotesIndex = votesCopy.indexOf(max);
 
   return (
     <div>
       <h1>Anecdote of the Day</h1>
       <p>{anecdotes[selected]}</p>
-      <p>Has {selectedAnecCopy[selected]} votes</p>
+      <p>Has {votesCopy[selected]} votes</p>
       <br/>
       <button onClick={vote}>vote</button>
-      <button onClick={handleSelected}>next anecdote</button>
+      <button onClick={next}>next anecdote</button>
       <h2>Anecdote with most vote</h2>
       <p>{anecdotes[maxVotesIndex]}</p>
       <p>Has {max} votes</p>

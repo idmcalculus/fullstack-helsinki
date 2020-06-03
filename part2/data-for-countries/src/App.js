@@ -49,6 +49,15 @@ const App = () => {
 		return countryFilter.length > 0 ? name.toLowerCase().includes(countryFilter.toLowerCase()) : '';
 	});
 
+	const weather = (country) => {
+		axios
+		.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${country.capital}`)
+		.then(response => {
+			setApiResponse(response.data);
+		})
+		.catch(error => console.error(error));
+	};
+
 	/*if (showCountries.length === 1) {
 		setQuery(showCountries[0].capital);
 	}*/
@@ -66,11 +75,12 @@ const App = () => {
 			<div>
 				{
 					showCountries.length > 10 ? <p>Too many matches, specify another filter</p> : 
-					/*showCountries.length === 1 ? (
+					showCountries.length === 1 ? (
 						showCountries.map(country => {
+							weather(country);
 							return <Country key={country.numericCode} country={country} response={apiResponse} />
 						})
-					) : */(
+					) : (
 						showCountries.map(country => {
 							return (
 								<div key={country.numericCode}>

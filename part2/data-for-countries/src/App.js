@@ -14,23 +14,9 @@ const App = () => {
 	const [ valueCount, setValue ] = useState({
 		value: null
 	});
-
-	const [ query, setQuery ] = useState('Abuja');
 	const [ apiResponse, setApiResponse ] = useState([]);
 
-	console.log(apiResponse);
-	console.log(query);
-
 	const apiKey = process.env.REACT_APP_API_KEY;
-
-	useEffect(()=>{
-		axios
-		.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${query}`)
-		.then(response => {
-			setApiResponse(response.data);
-		})
-		.catch(error => console.error(error));
-	}, [apiKey, query]);
 
 	useEffect(() => {
 		axios
@@ -58,13 +44,9 @@ const App = () => {
 		.catch(error => console.error(error));
 	};
 
-	/*if (showCountries.length === 1) {
-		setQuery(showCountries[0].capital);
-	}*/
-
 	const handleShow = (country) => {
 		setValue({value: country});
-		setQuery(country.capital);
+		weather(country);
 		setShow(!show);
 	};
 

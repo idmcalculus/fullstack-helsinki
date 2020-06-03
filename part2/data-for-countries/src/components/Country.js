@@ -2,6 +2,10 @@ import React from 'react';
 
 const Country = ({country, response}) => {
 
+	if (response.length === 0) {
+		return null;
+	}
+
 	return (
 		<div>
 			<h2>{country.name}</h2>

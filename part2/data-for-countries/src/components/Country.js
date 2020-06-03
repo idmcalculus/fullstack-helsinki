@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import dotenv from 'dotenv';
+import Weather from './Weather';
 
-const Country = ({country, response}) => {
+dotenv.config();
 
-	if (response.length === 0) {
-		return null;
-	}
+const Country = ({country}) => {
+
+	const [ apiResponse, setApiResponse ] = useState([]);
+	const apiKey = process.env.REACT_APP_API_KEY;
+
+	useEffect(()=>{
+		axios
+		.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${country.capital}`)
+		.then(response => {
+			setApiResponse(response.data);
+		})
+		.catch(error => console.error(error));
+	}, [apiKey, country.capital]);
 
 	return (
 		<div>
@@ -17,13 +30,7 @@ const Country = ({country, response}) => {
 			<div>
 				<img alt={`flag of ${country.name}`} src={country.flag} height={250} width={250}/>
 			</div>
-			<h3>{`Weather in ${country.capital}`}</h3>
-			<p><strong>temperature: </strong>{response.current.temperature}</p>
-			<br/>
-			<div>
-				<img alt={`weather icon of ${country.capital}`} src={response.current.weather_icons[0]} height={250} width={250}/>
-			</div>
-			<p><strong>wind: </strong>{response.current.wind_speed} mph direction {response.current.wind_dir}</p>
+			<Weather response={apiResponse} country={country} />
 		</div>
 	)
 }

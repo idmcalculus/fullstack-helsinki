@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "firebase-tools": "^8.4.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
@@ -18,6 +19,7 @@
     "eject": "react-scripts eject",
     "server": "json-server -p3004 --watch db.json"
   },
+  "proxy": "http://localhost:3003",
   "eslintConfig": {
     "extends": "react-app"
   },

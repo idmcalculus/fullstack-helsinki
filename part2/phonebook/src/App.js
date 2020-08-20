@@ -11,7 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
   const [ errorMessage, setErrorMessage ] = useState(null);
-  const [ successMessage, setSuccessMessage ] = useState(null)
+  const [ successMessage, setSuccessMessage ] = useState(null);
 
   useEffect(()=>{
 	personService
@@ -117,7 +117,7 @@ const App = () => {
 	  setFilter(event.target.value);
   };
 
-  const showPersons = !filter? persons : (
+  const showPersons = !filter ? persons : (
 	  persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 	  );
 

@@ -29,7 +29,7 @@ const App = () => {
 	});
   }, []);
 
-  const addName = (event) => {
+  const addName = async (event) => {
 	  event.preventDefault();
 	  const nameObject = {
 		  name: newName,
@@ -40,16 +40,16 @@ const App = () => {
 
 	  if (foundPerson) {
 		  if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
-			  personService
-			  .updatePerson(foundPerson.id, nameObject)
-			  .then(newData => {
-				  setSuccessMessage(`Updated ${newName}`);
-				  setTimeout(() => {
-					setSuccessMessage(null);
-				  }, 5000);
-				  setPersons(persons.map(person => person.name !== foundPerson.name ? person : newData));
-				})
-			  .catch(error => {
+			  try {
+				const newData = await personService.updatePerson(foundPerson.id, nameObject);
+				if (newData) {
+					setSuccessMessage(`Updated ${newName}`);
+					setTimeout(() => {
+					  setSuccessMessage(null);
+					}, 5000);
+					setPersons(persons.map(person => person.name !== foundPerson.name ? person : newData));
+				  }
+			  } catch(error) {
 				setErrorMessage(
 					`${newName} was already removed from server`
 				  );
@@ -57,26 +57,26 @@ const App = () => {
 					setErrorMessage(null);
 				  }, 5000);
 				setPersons(persons.filter(person => person.id !== foundPerson.id));
-				});
+				}
 		  }
 	  } else {
-			personService
-			.createPerson(nameObject)
-			.then(newData => {
-				setSuccessMessage(`Added ${newData.name}`);
-				setTimeout(() => {
-					setSuccessMessage(null);
-				  }, 5000);
-				setPersons(persons.concat(newData));
-			})
-			.catch(error => {
+			try {
+				const newData = await personService.createPerson(nameObject);
+				if (newData) {
+					setSuccessMessage(`Added ${newData.name}`);
+					setTimeout(() => {
+						setSuccessMessage(null);
+					}, 5000);
+					setPersons(persons.concat(newData));
+				}
+			} catch(error) {
 				setErrorMessage(
-					`There was an error adding ${newName} to the phonebook`
+					error.response.data.error
 				  );
 				  setTimeout(() => {
 					setErrorMessage(null);
 				  }, 5000);
-			});
+			}
 	  }
 
 	  setNewName('');
